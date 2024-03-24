@@ -9,7 +9,7 @@ export type CreateRestaurantForm = {
     worktime:WorktimeSchedule
 };
 
-type Worktime = {
+export type Worktime = {
     from_time: string;
     to_time: string;
 } | null;

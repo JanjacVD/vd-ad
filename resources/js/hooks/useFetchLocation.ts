@@ -35,10 +35,10 @@ const useFetchLocation = () => {
                     lat: results[0].geometry.location.lat(),
                     lng: results[0].geometry.location.lng(),
                 });
-                setIsLoading(false);
             } else {
                 setError("Address not found, please try again.");
             }
+            setIsLoading(false);
         });
     };
     return {

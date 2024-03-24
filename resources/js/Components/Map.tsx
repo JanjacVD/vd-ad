@@ -1,5 +1,5 @@
 import useFetchLocation from "@/hooks/useFetchLocation";
-import { useEffect, useRef } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef } from "react";
 import Spinner from "./Spinner";
 
 // const Map = forwardRef<HTMLDivElement>((props, ref) => {
@@ -11,9 +11,11 @@ import Spinner from "./Spinner";
 const Map = ({
     address,
     setData,
+    onError
 }: {
     address: string;
     setData: (key: string, value: unknown) => void;
+    onError:Dispatch<SetStateAction<boolean>>
 }) => {
     const { fetchLocation, error, isLoading } = useFetchLocation();
     const mapRef = useRef<HTMLDivElement>(null);
@@ -23,6 +25,9 @@ const Map = ({
     useEffect(() => {
         handleLocationFetch();
     }, [address]);
+    useEffect(() => {
+        onError(!!error)
+    },[error])
     return (
         <>
             {isLoading && <Spinner />}

@@ -15,14 +15,14 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string("name");
-            $table->boolean("is_accepting_orders");
-            $table->boolean("is_working");
-            $table->boolean("is_banned");
-            $table->boolean("is_confirmed");
+            $table->boolean("is_accepting_orders")->default(0);
+            $table->boolean("is_working")->default(0);
+            $table->boolean("is_banned")->default(0);
+            $table->boolean("is_confirmed")->default(0);
             $table->string("tel_number");
+            $table->json("worktime");
             $table->unsignedBigInteger("geolocation_address_id")->nullable();
             $table->foreign('geolocation_address_id')->references('id')->on('geolocation_addresses');
-            $table->json("work_time");
         });
     }
 
