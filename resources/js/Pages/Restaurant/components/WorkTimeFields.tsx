@@ -21,11 +21,9 @@ const dayNames = [
 const WorkTimeFields = ({
     value,
     setValue,
-    invalid = false,
 }: {
     value: WorktimeSchedule;
     setValue: (val: WorktimeSchedule) => void;
-    invalid: boolean;
 }) => {
     const [workdays, setWorkdays] = useState<number[]>(
         extractDaysWithoutNull(value)
@@ -51,7 +49,7 @@ const WorkTimeFields = ({
                 value[workday as keyof typeof value];
         });
         newWorktime[day as keyof WorktimeSchedule] = workdayToChange;
-        setValue(newWorktime);
+        setValue({...newWorktime});
     };
     const handleGeneralWorktimeChange = () => {
         if(!isSame) return;

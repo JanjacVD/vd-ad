@@ -11,4 +11,9 @@ class RestaurantTag extends Model
     use HasTranslations, HasFactory;
     protected $fillable = ['name', 'icon'];
     public $translatable = ['name'];
+
+    public function restaurants()
+    {
+        return $this->belongsToMany(Restaurant::class);
+    }
 }

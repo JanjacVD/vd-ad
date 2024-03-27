@@ -9,11 +9,14 @@ class GeolocationAddress extends Model
 {
     protected $fillable = [
         "name",
-        "restaurant_id",
         "place_id",
         "formatted_address",
         "lat",
         "lng",
+        'user_id'
     ];
+    public function restaurant(){
+        return $this->belongsTo(Restaurant::class);
+    }
     use HasFactory;
 }

@@ -17,7 +17,16 @@ class Restaurant extends Model
         'is_banned',
         'is_confirmed',
         'tel_number',
+        'worktime',
         'geolocation_address_id',
     ];
+    public function geolocation()
+    {
+        return $this->hasOne(GeolocationAddress::class);
+    }
+    public function tags()
+    {
+        return $this->belongsToMany(RestaurantTag::class);
+    }
     use HasFactory;
 }

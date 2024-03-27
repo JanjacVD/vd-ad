@@ -6,9 +6,11 @@ use App\Models\Restaurant;
 use App\Http\Requests\StoreRestaurantRequest;
 use App\Http\Requests\UpdateRestaurantRequest;
 use App\Http\Resources\RestaurantTagResource;
+use App\Models\GeolocationAddress;
 use App\Models\RestaurantTag;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Spatie\Permission\Models\Role;
 
 class RestaurantController extends Controller
 {
@@ -35,7 +37,25 @@ class RestaurantController extends Controller
      */
     public function store(StoreRestaurantRequest $request)
     {
-        //
+        $newGeolocation = GeolocationAddress::create([
+            'name' => $request->name,
+            'place_id' => $request->location['place_id'],
+            'formatted_address' => $request->location['formatted_address'],
+            'lat' => $request->location['lat'],
+            'lng' => $request->location['lng'],
+        ]);
+
+        $newRestaurant = Restaurant::create([
+            'name' => $request->name,
+            'tel_number' => $request->tel_number,
+            'worktime' => json_encode($request->worktime),
+            'geolocation_address_id' => $newGeolocation->id
+        ]);
+        $tags = $request->tags;
+        $newRestaurant->tags()->sync($tags);
+        $role = Role::firstOrCreate(['name' => 'restaurant_admin', 'restaurant_id' => $newRestaurant->id]);
+        setPermissionsTeamId($newRestaurant->id);
+        $request->user()->assignRole($role);
     }
 
     /**

@@ -11,7 +11,7 @@ class StoreRestaurantRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,18 @@ class StoreRestaurantRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "name" => ['required', 'string'],
+            "address" => ['required', 'string'],
+            "tel_number" => ['required', 'string'],
+            "location.place_id" => ['required', 'string'],
+            "location.formatted_address" => ['required', 'string'],
+            "location.lat" => ['required', 'numeric'],
+            "location.lng" => ['required', 'numeric'],
+            "tags" => ['required', 'array'],
+            "tags.*" => ['required', 'numeric'],
+            "worktime" => ['required', 'array'],
+            "worktime.*.from_time" => ['nullable', 'date_format:H:i'],
+            "worktime.*.to_time" => ['nullable', 'date_format:H:i'],
         ];
     }
 }

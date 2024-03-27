@@ -36,7 +36,7 @@ const Stepper = ({ steps, disabledNext = false }: StepperProps) => {
         <div className="grid grid-cols-4 gap-10">
             <ol className="space-y-4 w-full col-span-1">
                 {steps.map((step, index) => (
-                    <li>
+                    <li key={index}>
                         <div className={getStepStyle(index)} role="alert">
                             <div className="flex items-center justify-between">
                                 <span className="sr-only">{step.label}</span>

@@ -5,6 +5,7 @@ import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link } from "@inertiajs/react";
 import { User } from "@/types";
+import Spinner from "@/Components/Spinner";
 
 const LINKS = {
     customer: [
@@ -19,7 +20,8 @@ export default function Authenticated({
     user,
     header,
     children,
-}: PropsWithChildren<{ user: User; header?: ReactNode }>) {
+    loading = false,
+}: PropsWithChildren<{ user: User; header?: ReactNode; loading?: boolean }>) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
     return (
@@ -200,6 +202,7 @@ export default function Authenticated({
             )}
 
             <main>{children}</main>
+            {loading && <Spinner />}
         </div>
     );
 }
