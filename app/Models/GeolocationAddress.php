@@ -16,7 +16,7 @@ class GeolocationAddress extends Model
         'user_id'
     ];
     public function restaurant(){
-        return $this->belongsTo(Restaurant::class);
+        return $this->hasMany(Restaurant::class);
     }
     use HasFactory;
 }

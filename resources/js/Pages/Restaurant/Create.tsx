@@ -11,13 +11,11 @@ import { Head, useForm } from "@inertiajs/react";
 import {
     FormEventHandler,
     useEffect,
-    useMemo,
     useState,
 } from "react";
 import { basicInfoFields } from "./data/formFieldGenerator";
 import WorkTimeFields from "./components/WorkTimeFields";
 import { initCreateData } from "./data/initData";
-import Spinner from "@/Components/Spinner";
 
 export default function Create({
     auth,

@@ -7,14 +7,12 @@ import { Link } from "@inertiajs/react";
 import { User } from "@/types";
 import Spinner from "@/Components/Spinner";
 
-const LINKS = {
-    customer: [
-        {
-            route: "restaurant.create",
-            label: "Become a partner",
-        },
-    ],
-};
+const LINKS = [
+    {
+        route: "restaurant.create",
+        label: "Become a partner",
+    },
+];
 
 export default function Authenticated({
     user,
@@ -43,7 +41,7 @@ export default function Authenticated({
                                 >
                                     Dashboard
                                 </NavLink>
-                                {LINKS["customer"].map((link) => (
+                                {LINKS.map((link) => (
                                     <NavLink
                                         key={link.label}
                                         href={route(link.route)}
@@ -52,6 +50,17 @@ export default function Authenticated({
                                         {link.label}
                                     </NavLink>
                                 ))}
+                                {user.user_has_restaurant_count > 0 && (
+                                    <NavLink
+                                        key={"restaurant.index"}
+                                        href={route("restaurant.index")}
+                                        active={route().current(
+                                            "restaurant.index"
+                                        )}
+                                    >
+                                        My restaurants
+                                    </NavLink>
+                                )}
                             </div>
                         </div>
 
@@ -156,15 +165,24 @@ export default function Authenticated({
                         >
                             Dashboard
                         </ResponsiveNavLink>
-                        {LINKS["customer"].map((link) => (
-                            <NavLink
+                        {LINKS.map((link) => (
+                            <ResponsiveNavLink
                                 key={link.label}
-                                href={route("dashboard")}
-                                active={route().current("dashboard")}
+                                href={route(link.route)}
+                                active={route().current(link.route)}
                             >
-                                Dashboard
-                            </NavLink>
+                                {link.label}
+                            </ResponsiveNavLink>
                         ))}
+                        {user.user_has_restaurant_count > 0 && (
+                            <ResponsiveNavLink
+                                key={"restaurant.index"}
+                                href={route("restaurant.index")}
+                                active={route().current("restaurant.index")}
+                            >
+                                My restaurants
+                            </ResponsiveNavLink>
+                        )}
                     </div>
 
                     <div className="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">

@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Restaurant;
 use App\Http\Requests\StoreRestaurantRequest;
 use App\Http\Requests\UpdateRestaurantRequest;
+use App\Http\Resources\RestaurantResource;
 use App\Http\Resources\RestaurantTagResource;
 use App\Models\GeolocationAddress;
 use App\Models\RestaurantTag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Spatie\Permission\Models\Role;
 
@@ -19,15 +21,17 @@ class RestaurantController extends Controller
      */
     public function index()
     {
-        //
+        $restaurants = Auth::user()->restaurantsAdmin;
+        $collection = RestaurantResource::collection($restaurants);
+        return Inertia::render('Restaurant/Index', ['restaurants' => $collection]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request)
+    public function create()
     {
-        $tags = RestaurantTagResource::collection(RestaurantTag::all())->toArray($request);
+        $tags = RestaurantTagResource::collection(RestaurantTag::all());
         return Inertia::render('Restaurant/Create', ['tags' => $tags]);
     }
 
@@ -53,9 +57,8 @@ class RestaurantController extends Controller
         ]);
         $tags = $request->tags;
         $newRestaurant->tags()->sync($tags);
-        $role = Role::firstOrCreate(['name' => 'restaurant_admin', 'restaurant_id' => $newRestaurant->id]);
-        setPermissionsTeamId($newRestaurant->id);
-        $request->user()->assignRole($role);
+        $role = Role::firstOrCreate(['name' => 'restaurant_admin']);
+        $newRestaurant->users()->attach($request->user(), ['role_id' => $role->id]);
     }
 
     /**

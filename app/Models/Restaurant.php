@@ -22,11 +22,15 @@ class Restaurant extends Model
     ];
     public function geolocation()
     {
-        return $this->hasOne(GeolocationAddress::class);
+        return $this->belongsTo(GeolocationAddress::class, 'geolocation_address_id');
     }
     public function tags()
     {
         return $this->belongsToMany(RestaurantTag::class);
+    }
+    
+    public function users(){
+        return $this->belongsToMany(User::class);
     }
     use HasFactory;
 }
